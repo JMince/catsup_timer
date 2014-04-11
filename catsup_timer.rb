@@ -11,9 +11,16 @@ seconds = amount * 60 *60 * 24 if units == "days"
 
 while true
   if Time.now > start_time + seconds
+    print "\r"
+    print "Your tomato has exploded. Time is up"
     system(%Q{say -v "Vick" "Your tomato has exploded. Time is up"})
     exit
   end
   sleep 1
-end
+  time_left = Time.new(1974)
+  time_left_seconds = seconds - (Time.now - start_time)
+  time_left += time_left_seconds
 
+  print "\r"
+  print time_left.strftime("%H:%M:%S")
+end
