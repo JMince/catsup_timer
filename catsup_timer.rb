@@ -1,6 +1,33 @@
 again = "yes"
+@voice = "Vicki"
+phrase = "Your tomato has exploded. Time is up"
+
+def voice_sample
+  `say -v ?`.split(/\n/).map { |l| l[0, l.index('en_')].strip }.each { |v| puts v; %x[say -v \"#{v}\" \"I am #{v}\"]; sleep(0.5) }
+  puts "Please choose a voice."
+  @voice = gets.chomp
+end
+
 while again == "yes"
   while true
+    puts %Q{Do you want to choose the voice or phrase for timer ending?}
+    puts %Q{Put "voice", "phrase" or "both" to choose both. Anything else for no}
+    choosy = gets.chomp
+    case choosy
+      when "voice"
+        puts %Q{What voice would you like to choose? If you want a list and sample, put "help"}
+        @voice = gets.chomp
+        voice_sample if @voice == "help"
+      when "phrase"
+        puts "What phrase would you like to choose?"
+        phrase = gets.chomp
+      when "both"
+        puts %Q{What voice would you like to choose? If you want a list and sample, put "help"}
+        @voice = gets.chomp
+        voice_sample if @voice == "help"
+        puts "What phrase would you like to choose?"
+        phrase = gets.chomp
+    end
     puts "Do you want to count in seconds, minutes, hours or days?"
     units = gets.chomp
     if units == "seconds" ||
@@ -9,10 +36,10 @@ while again == "yes"
       units == "days"
       puts "How many #{units}?"
       amount = gets.chomp.to_i
-      break
     else
       puts "I don't understand"
     end
+    break
   end
   again = "same"
   while again == "same"
@@ -35,8 +62,8 @@ while again == "yes"
     end
     print "\r"
     puts "00:00:00"
-    puts "Your tomato has exploded. Time is up"
-    system(%Q{say -v "Vick" "Your tomato has exploded. Time is up"})
+    puts phrase
+    system(%Q{say -v #{@voice} #{phrase}})
     puts %Q{Again? Put "same" for same as before, or "yes" to reenter parameters, anything else for exit.}
     again = gets.chomp
   end
