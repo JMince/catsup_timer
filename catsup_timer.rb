@@ -1,5 +1,5 @@
 def voice_sample
-  `say -v ?`.split(/\n/).map { |l| l[0, l.index('en_')].strip }.each { |v| puts v; %x[say -v \"#{v}\" \"I am #{v}\"]; sleep(0.5) }
+  `say -v ?`.split(/\n/).map { |l| l[0, l.index('  ')].strip }.each { |v| puts v; %x[say -v \"#{v}\" \"I am #{v}\"]; sleep(0.5) }
 end
 
 def collect_inputs
